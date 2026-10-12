@@ -1,0 +1,11 @@
+# 草稿目录：本地写、不要发布
+drafts/
+
+# 编辑器 / 系统杂项
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# Node（如果以后引入工具链）
+node_modules/

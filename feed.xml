@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RSS 2.0 订阅源。新增文章时：
+  1. 在 <channel> 里更新 <lastBuildDate>
+  2. 在 <channel> 顶部加一个 <item>（最新的在最上面）
+  link 必须是完整的 https 网址，且部署后把 example.com 换成你的真实域名。
+-->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>我的博客</title>
+    <link>https://example.com/</link>
+    <description>记录与折腾：编程笔记、教程和随想。</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 12 Oct 2026 00:00:00 +0800</lastBuildDate>
+    <generator>手写的 RSS（零依赖博客）</generator>
+    <atom:link href="https://example.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>为什么我要有一个自己的博客</title>
+      <link>https://example.com/posts/hello-world.html</link>
+      <guid isPermaLink="true">https://example.com/posts/hello-world.html</guid>
+      <pubDate>Mon, 12 Oct 2026 00:00:00 +0800</pubDate>
+      <category>随想</category>
+      <category>博客</category>
+      <description>平台会关停，算法会改，只有自己域名下的文字真正属于自己。这是这个站的第一篇文章，也是我给自己立的规矩。</description>
+    </item>
+
+    <item>
+      <title>这个博客是怎么搭起来的：零依赖三件套</title>
+      <link>https://example.com/posts/how-this-blog-works.html</link>
+      <guid isPermaLink="true">https://example.com/posts/how-this-blog-works.html</guid>
+      <pubDate>Sat, 10 Oct 2026 00:00:00 +0800</pubDate>
+      <category>教程</category>
+      <category>前端</category>
+      <description>目录结构、相对路径、深色模式、标签筛选和 RSS，全部拆开讲一遍：不依赖任何框架的博客是怎么工作的。</description>
+    </item>
+
+    <item>
+      <title>我的写作流程：Markdown 写，HTML 发</title>
+      <link>https://example.com/posts/writing-workflow.html</link>
+      <guid isPermaLink="true">https://example.com/posts/writing-workflow.html</guid>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 +0800</pubDate>
+      <category>教程</category>
+      <category>工具</category>
+      <description>用 Markdown 写草稿、转成 HTML 片段贴进模板，再按清单发布：一套可长期执行的个人博客写作流程。</description>
+    </item>
+
+  </channel>
+</rss>

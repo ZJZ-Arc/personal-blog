@@ -1,0 +1,9 @@
+# 允许所有爬虫抓取正文内容
+User-agent: *
+Allow: /
+# 模板和脚本不是给读者看的内容，别浪费爬虫配额
+Disallow: /templates/
+Disallow: /tools/
+
+# 部署后把 example.com 换成你的真实域名，搜索引擎才能找到站点地图
+Sitemap: https://example.com/sitemap.xml

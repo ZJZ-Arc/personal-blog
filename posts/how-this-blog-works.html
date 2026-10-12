@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem("blog-theme");
+      var theme = (saved === "light" || saved === "dark")
+        ? saved
+        : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();
+</script>
+
+<title>这个博客是怎么搭起来的：零依赖三件套 · 我的博客</title>
+<meta name="description" content="用纯 HTML、CSS、JavaScript 搭一个可部署到 GitHub Pages 的个人博客：目录结构、相对路径、深色模式、标签筛选和 RSS 的实现说明。">
+<link rel="canonical" href="https://example.com/posts/how-this-blog-works.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="这个博客是怎么搭起来的：零依赖三件套">
+<meta property="og:description" content="目录结构、相对路径、深色模式、标签筛选和 RSS，全部拆开讲一遍。">
+<meta property="og:url" content="https://example.com/posts/how-this-blog-works.html">
+<meta property="article:published_time" content="2026-10-10">
+
+<link rel="alternate" type="application/rss+xml" title="我的博客 · RSS" href="../feed.xml">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">我的博客</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="../index.html">首页</a>
+      <a href="../tags.html">标签</a>
+      <a href="../about.html">关于</a>
+      <a href="../feed.xml">RSS</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换主题">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <header class="article-header">
+      <h1>这个博客是怎么搭起来的：零依赖三件套</h1>
+      <div class="post-meta">
+        <time datetime="2026-10-10">2026 年 10 月 10 日</time>
+        <span class="dot">·</span>
+        <span>约 6 分钟读完</span>
+        <span class="dot">·</span>
+        <span class="tags">
+          <a class="tag" href="../index.html?tag=教程">教程</a>
+          <a class="tag" href="../index.html?tag=前端">前端</a>
+        </span>
+      </div>
+    </header>
+
+    <div class="prose">
+      <p>
+        这个站没有框架、没有 npm 依赖、没有构建步骤。整个「技术方案」就是浏览器原本就会的三样东西：
+        HTML 负责内容，CSS 负责样子，JavaScript 负责那点交互。看懂这一篇，你就看懂了这个站的全部。
+      </p>
+
+      <h2>一、目录结构</h2>
+      <pre><code>personal-blog/
+├── index.html          # 首页：自我介绍 + 文章列表
+├── tags.html           # 所有标签的总览页
+├── about.html          # 关于我
+├── posts/              # 每篇文章一个 HTML 文件
+│   ├── hello-world.html
+│   └── how-this-blog-works.html
+├── templates/
+│   └── post.html       # 新文章模板（复制它来写新文章）
+├── tools/
+│   └── new-post.mjs    # 可选：一条命令生成新文章骨架
+├── assets/
+│   ├── style.css       # 所有样式，颜色都是变量
+│   └── main.js         # 主题切换 + 标签筛选
+├── feed.xml            # RSS 订阅源
+├── sitemap.xml         # 给搜索引擎的页面清单
+├── robots.txt
+├── .nojekyll           # 告诉 GitHub Pages：别用 Jekyll 处理我的文件
+└── README.md</code></pre>
+      <p>
+        注意文章全部放在 <code>posts/</code> 子目录里。这不是强迫症，而是为了「相对路径」能算得清楚。
+      </p>
+
+      <h2>二、相对路径：让同一份代码在本地和线上都能跑</h2>
+      <p>
+        所有链接都写成<strong>相对路径</strong>，不写 <code>/assets/style.css</code> 这种绝对路径：
+      </p>
+      <pre><code>&lt;!-- 首页在根目录 --&gt;
+&lt;link rel="stylesheet" href="assets/style.css"&gt;
+
+&lt;!-- 文章在 posts/ 里，要往上退一层 --&gt;
+&lt;link rel="stylesheet" href="../assets/style.css"&gt;</code></pre>
+      <p>
+        这么写有三个好处：双击本地文件就能预览；搬到 GitHub Pages 的项目仓库（网址是
+        <code>用户名.github.io/仓库名/</code>）不会 404；以后换域名也不用改任何一行代码。
+      </p>
+
+      <h2>三、深色模式：一组变量 + 一个属性</h2>
+      <p>
+        颜色全部写成 CSS 变量，浅色是默认值，深色是另一组值。切换主题本质上就是给
+        <code>&lt;html&gt;</code> 换一个属性：
+      </p>
+      <pre><code>:root {
+  --bg: #ffffff;
+  --text: #16181d;
+  --accent: #2563eb;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e1014;
+  --text: #e7e9ee;
+  --accent: #7aa2ff;
+}</code></pre>
+      <p>
+        组件里只写 <code>background: var(--bg)</code>，于是「换主题」这件事只发生在一个地方。
+        两个容易踩的坑我提前处理了：
+      </p>
+      <ul>
+        <li>
+          <strong>闪白屏。</strong>如果在 body 末尾才读 localStorage，页面会先用浅色画一遍再变深色。
+          解决方法是把一小段脚本放在 <code>&lt;head&gt;</code> 里、CSS 之前执行。
+        </li>
+        <li>
+          <strong>记住用户的选择。</strong>手动切过就写进 <code>localStorage</code>；
+          没切过就跟随系统，并且系统主题变了也跟着变（<code>matchMedia</code> 监听）。
+        </li>
+      </ul>
+
+      <h2>四、标签筛选：状态放在 URL 里</h2>
+      <p>
+        每篇列表项上挂着它自己的标签：
+      </p>
+      <pre><code>&lt;li class="post-item" data-tags="教程 前端"&gt; ... &lt;/li&gt;</code></pre>
+      <p>
+        点击标签按钮时，JS 遍历所有 <code>[data-tags]</code>，不匹配的就设成 <code>hidden</code>，
+        同时把当前标签写进地址栏的查询串（<code>?tag=教程</code>）。为什么非要用 URL 存状态？
+      </p>
+      <ol>
+        <li>标签总览页可以直接链接过来，分享给别人也能直接看到筛选结果；</li>
+        <li>刷新和浏览器前进后退都不会丢状态；</li>
+        <li>整个筛选逻辑不需要服务器，纯前端就能完成。</li>
+      </ol>
+      <blockquote>
+        小细节：筛选时用的是 <code>history.replaceState</code> 而不是 <code>pushState</code>。
+        否则用户点五次标签，就要按五次返回键才能离开这个站。
+      </blockquote>
+
+      <h2>五、RSS 和 SEO</h2>
+      <p>
+        <code>feed.xml</code> 是一个手写的 RSS 2.0 文件，每发一篇文章加一个 <code>&lt;item&gt;</code>。
+        同时每个页面的 <code>&lt;head&gt;</code> 里都有 <code>title</code>、<code>description</code>、
+        <code>canonical</code> 和 Open Graph 标签，这是搜索引擎和社交平台判断「这个页面讲什么」的依据。
+      </p>
+      <p>
+        因为没有构建步骤，这些元信息是手写的——这正是零依赖方案要付的代价。
+        网站规模小的时候完全划算；等你有五十篇文章、每次发帖要改六个文件时，
+        就该考虑换成 Astro 或 Hexo 这类工具了。
+      </p>
+      <p>
+        为了对抗「手工维护容易漏」，项目里带了一个自检脚本：
+        <code>node tools/check.mjs</code> 会检查断链、标签计数、RSS 与 sitemap 是否和真实文章对齐。
+        它的退出码在有问题时是非 0，所以既能本地跑，也能接进 CI。
+      </p>
+
+      <h2>六、发布到 GitHub Pages</h2>
+      <p>思路只有四步，详细命令写在项目的 README 里：</p>
+      <ol>
+        <li>在 GitHub 建一个仓库（想要 <code>用户名.github.io</code> 这样的网址，仓库名就得这么取）；</li>
+        <li>把本地文件 <code>git push</code> 上去；</li>
+        <li>仓库的 <strong>Settings → Pages</strong> 里把 Source 设为 <code>main</code> 分支的根目录；</li>
+        <li>等一两分钟，访问分给你的网址。</li>
+      </ol>
+      <p>
+        根目录那个 <code>.nojekyll</code> 空文件别删。GitHub Pages 默认会用 Jekyll 处理你的文件，
+        而 Jekyll 会忽略掉以下划线开头的文件、并可能改掉你的输出结果；放一个空文件就能关掉它。
+      </p>
+
+      <h2>七、什么时候该换方案</h2>
+      <p>
+        我把话说在前面：这套方案不是万能的。出现下面任一情况，就说明你该迁移了——
+        这正是「知道原理」比「会用某个工具」值钱的地方，迁移时你清楚每一部分对应什么。
+      </p>
+      <ul>
+        <li>每次发文章要手动改四个以上文件，而且你开始因此拖延写作；</li>
+        <li>需要在文章里用复用组件、图片自动压缩、代码高亮；</li>
+        <li>想要草稿、定时发布、多语言这些功能。</li>
+      </ul>
+      <p>那时候就直接换 Astro——你现在写的内容一个字都不会浪费，它们本来就是 HTML。</p>
+    </div>
+  </article>
+
+  <div class="article-footer">
+    <a href="../index.html">← 返回文章列表</a>
+    <a href="writing-workflow.html">下一篇：我的写作流程 →</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 我的博客 · 用纯 HTML / CSS / JavaScript 搭成</span>
+    <span><a href="../index.html">首页</a></span>
+  </div>
+</footer>
+
+<script src="../assets/main.js"></script>
+</body>
+</html>

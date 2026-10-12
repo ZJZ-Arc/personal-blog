@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  给搜索引擎的页面清单。新增页面时加一个 <url>。
+  lastmod 用「最后修改日期」即可，不需要精确到秒。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/posts/hello-world.html</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/posts/how-this-blog-works.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/posts/writing-workflow.html</loc>
+    <lastmod>2026-10-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/tags.html</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://example.com/about.html</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.4</priority>
+  </url>
+</urlset>
