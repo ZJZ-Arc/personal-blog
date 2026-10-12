@@ -184,6 +184,8 @@ node tools/check.mjs
 | 站名 | 每个页面左侧栏的 `<div class="site-name">…</div>`、`<title>`、`og:site_name` |
 | 站点副标题 | 每个页面左侧栏的 `<div class="site-description">记录与折腾</div>` |
 | 头像 | 替换 `assets/avatar.jpg`（方形图最好，CSS 会自动裁成圆形；建议 ≥320×320） |
+| 背景色（蓝） | `assets/style.css` 的 `--body-background`：浅色 `#e8f1fb`、深色 `#1b2a3a` |
+| 左侧选项卡配色（粉） | `assets/style.css` 的 `--sidebar-menu-color`（悬停/当前页用 `--sidebar-menu-color-hover`）：浅色 `#c2255c`、深色 `#ff9ecb` |
 | 头像右下角的小表情 | 每个页面里的 `<span class="emoji">💻</span>`，不想要就整行删掉 |
 | 首页自我介绍 | `index.html` 里第一张卡片（`<h1 class="article-title">` 和它的 `article-subtitle`） |
 | 关于页 | `about.html` 的 `.article-content` 一段 |

@@ -15,12 +15,19 @@
    -------------------------------------------------------------------------- */
 :root {
   --main-top-padding: 35px;
-  --body-background: #f5f5fa;
+  --body-background: #e8f1fb; /* 蓝色背景 */
 
   --accent-color: #34495e;
   --accent-color-darker: #2c3e50;
   --accent-color-text: #fff;
-  --body-text-color: #707070;
+  /* Stack 原本是 #707070，但那个灰压在新的蓝色背景上只有 4.34:1，
+     略低于 WCAG 的 4.5，所以调深一点（白色卡片上依然清晰） */
+  --body-text-color: #6a6a6a;
+
+  /* 左侧栏菜单（“选项卡”）的主题色：粉色。
+     偏深是因为浅蓝背景上亮粉的文字对比度不够，见 README 里的说明 */
+  --sidebar-menu-color: #c2255c;
+  --sidebar-menu-color-hover: #8f1a45;
 
   --card-background: #fff;
   --card-background-selected: #eaeaea;
@@ -86,21 +93,25 @@
    -------------------------------------------------------------------------- */
 :root[data-theme="dark"] {
   --main-top-padding: 50px;
-  --body-background: #303030;
+  --body-background: #1b2a3a; /* 深蓝背景 */
 
   --accent-color: #ecf0f1;
   --accent-color-darker: #bdc3c7;
   --accent-color-text: #000;
   --body-text-color: rgba(255, 255, 255, 0.7);
 
-  --card-background: #424242;
+  /* 深色下用亮粉：在深蓝背景上对比度很好，也能保持“粉”的感觉 */
+  --sidebar-menu-color: #ff9ecb;
+  --sidebar-menu-color-hover: #ffc2dd;
+
+  --card-background: #27394d;
   --card-background-selected: rgba(255, 255, 255, 0.16);
   --card-text-color-main: rgba(255, 255, 255, 0.9);
   --card-text-color-secondary: rgba(255, 255, 255, 0.7);
   --card-text-color-tertiary: rgba(255, 255, 255, 0.5);
   --card-separator-color: rgba(255, 255, 255, 0.12);
 
-  --blockquote-background-color: rgb(75 75 75);
+  --blockquote-background-color: rgb(46 63 82);
   --code-background-color: #272822;
   --code-text-color: rgba(255, 255, 255, 0.9);
   --table-border-color: #717171;
@@ -380,7 +391,7 @@ svg.icon {
   display: flex;
   align-items: center;
   gap: var(--menu-icon-separation);
-  color: var(--body-text-color);
+  color: var(--sidebar-menu-color); /* 粉色“选项卡” */
   background: none;
   border: 0;
   padding: 0;
@@ -391,8 +402,8 @@ svg.icon {
   transition: color 0.3s ease;
 }
 .menu a:hover,
-.menu button:hover,
-.menu a[aria-current="page"] { color: var(--accent-color); }
+.menu button:hover { color: var(--sidebar-menu-color-hover); }
+.menu a[aria-current="page"] { color: var(--sidebar-menu-color-hover); }
 .menu a[aria-current="page"] span { font-weight: 700; }
 .menu .icon { stroke-width: 1.33; }
 

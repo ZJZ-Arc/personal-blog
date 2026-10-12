@@ -23,8 +23,8 @@
 <meta property="og:description" content="目录结构、相对路径、深色模式、标签筛选和 RSS，全部拆开讲一遍。">
 <meta property="og:url" content="https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html">
 <meta property="article:published_time" content="2026-10-10">
-<meta name="theme-color" content="#f5f5fa" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#303030" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e8f1fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b2a3a" media="(prefers-color-scheme: dark)">
 
 <link rel="alternate" type="application/rss+xml" title="Arc.desktop的小窝 · RSS" href="../feed.xml">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
@@ -147,17 +147,17 @@
           颜色全部写成 CSS 变量，深色模式只是换一组变量值：
         </p>
         <pre><code>:root {
-  --body-background: #f5f5fa;
+  --body-background: #e8f1fb;
   --card-background: #fff;
   --card-text-color-main: #000;
-  --accent-color: #34495e;
+  --sidebar-menu-color: #c2255c;
 }
 
 :root[data-theme="dark"] {
-  --body-background: #303030;
-  --card-background: #424242;
+  --body-background: #1b2a3a;
+  --card-background: #27394d;
   --card-text-color-main: rgba(255, 255, 255, 0.9);
-  --accent-color: #ecf0f1;
+  --sidebar-menu-color: #ff9ecb;
 }</code></pre>
         <p>两个容易踩的坑我提前处理了：</p>
         <ul>
