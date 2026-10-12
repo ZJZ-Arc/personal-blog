@@ -5,5 +5,5 @@ Allow: /
 Disallow: /templates/
 Disallow: /tools/
 
-# 部署后把 example.com 换成你的真实域名，搜索引擎才能找到站点地图
-Sitemap: https://example.com/sitemap.xml
+# 站点地图地址。注意仓库名也要带上：项目站点的根路径是 /log/
+Sitemap: https://zjz-arc.github.io/personal-blog/sitemap.xml

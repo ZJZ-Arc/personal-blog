@@ -17,11 +17,11 @@
 
 <title>我的写作流程：Markdown 写，HTML 发 · 我的博客</title>
 <meta name="description" content="用 Markdown 写草稿、转成 HTML 片段贴进模板，再按清单发布：一套零依赖的个人博客写作流程。">
-<link rel="canonical" href="https://example.com/posts/writing-workflow.html">
+<link rel="canonical" href="https://zjz-arc.github.io/personal-blog/posts/writing-workflow.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我的写作流程：Markdown 写，HTML 发">
 <meta property="og:description" content="Markdown 写草稿、转成 HTML 片段贴进模板，再按清单发布。">
-<meta property="og:url" content="https://example.com/posts/writing-workflow.html">
+<meta property="og:url" content="https://zjz-arc.github.io/personal-blog/posts/writing-workflow.html">
 <meta property="article:published_time" content="2026-10-08">
 
 <link rel="alternate" type="application/rss+xml" title="我的博客 · RSS" href="../feed.xml">
@@ -132,7 +132,8 @@ summary: 一节话说清楚这篇讲什么，会出现在首页卡片上。
         <li>如果用了新标签，在 <code>index.html</code> 的标签栏和 <code>tags.html</code> 里各加一条，并更新数量；</li>
         <li>在 <code>feed.xml</code> 里加一个 <code>&lt;item&gt;</code>，更新 <code>lastBuildDate</code>；</li>
         <li>在 <code>sitemap.xml</code> 里加一个 <code>&lt;url&gt;</code>；</li>
-        <li>本地双击首页看一遍：深色浅色都切一下、点标签筛一下、点进文章再回来；</li>
+        <li>跑一遍 <code>node tools/check.mjs</code>，让机器替你检查上面四条有没有漏；</li>
+        <li>再人眼确认一次：双击首页，深色浅色都切一下、点标签筛一下、点进文章再回来；</li>
         <li><code>git add . &amp;&amp; git commit -m "post: 我的写作流程" &amp;&amp; git push</code>。</li>
       </ul>
       <blockquote>

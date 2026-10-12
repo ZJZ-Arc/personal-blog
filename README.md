@@ -1,5 +1,8 @@
 # 我的博客 —— 纯 HTML / CSS / JavaScript
 
+**线上地址：** https://zjz-arc.github.io/personal-blog/
+（仓库 `ZJZ-Arc/personal-blog`，GitHub Pages 从 `main` 分支根目录发布。
+改仓库名或绑自定义域名后要同步站点地址，做法见下方 4.5。）
 
 ## 一、目录结构
 
@@ -16,7 +19,8 @@ personal-blog/
 │   └── post.html       # 新文章模板（含 {{占位符}}）
 ├── tools/
 │   ├── new-post.mjs    # 一条命令生成新文章骨架（可选）
-│   └── check.mjs       # 发布前自检：断链、标签计数、RSS、sitemap（可选但强烈建议）
+│   ├── check.mjs       # 发布前自检：断链、标签计数、RSS、sitemap（可选但强烈建议）
+│   └── set-domain.mjs  # 换站点地址时一次性改完全部绝对网址（可选）
 ├── assets/
 │   ├── style.css       # 所有样式；颜色是 CSS 变量，深色模式只是换一组变量
 │   └── main.js         # 主题切换 + 标签筛选
@@ -110,6 +114,8 @@ git push
 
 
 
+## 四、部署与站点地址
+
 ### 4.3 开启 Pages
 
 1. 打开仓库页面 → **Settings**（设置）
@@ -129,25 +135,41 @@ git push
 3. 勾选 **Enforce HTTPS**（证书签发可能要等十几分钟）
 4. 在项目根目录新建一个名为 `CNAME` 的文件（没有扩展名），内容只有一行你的域名
 
-### 4.5 把占位域名换掉
+### 4.5 站点地址（绝对网址）
 
-部署到真实网址后，把下面这些文件里的 `https://example.com` 全部替换成你的网址，
-搜索引擎和 RSS 阅读器才能正确识别：
+链接（`<a href>`、`<link rel="stylesheet">`）全是相对路径，所以换域名、换仓库名都不影响页面能不能打开。
+但有一类地址**必须是完整网址**，写错了搜索引擎和 RSS 阅读器就会认错：
 
 - 所有 HTML 的 `<link rel="canonical">`、`og:url`
 - `feed.xml` 的 `<link>`、`<guid>`、`<atom:link>`
 - `sitemap.xml` 的所有 `<loc>`
 - `robots.txt` 的 `Sitemap:`
 
-一次性替换（把域名换成你自己的）：
+**关键规则：项目站点要带仓库名。** 本站仓库是 `ZJZ-Arc/personal-blog`，
+所以站点根地址是（注意结尾的 `/`）：
+
+```
+https://zjz-arc.github.io/personal-blog/
+```
+
+不是 `https://zjz-arc.github.io/`（那是账号主页的地址）。
+只有仓库名取成 `用户名.github.io` 时，地址才是域名根路径。
+
+换成新地址用项目自带的脚本，它一次性改完上面四个地方，并且用的是首页 canonical 里记录的旧地址：
 
 ```powershell
-Get-ChildItem -Recurse -Include *.html,*.xml,*.txt |
-  ForEach-Object {
-    (Get-Content $_.FullName -Raw).Replace('https://example.com', 'https://你的域名') |
-      Set-Content $_.FullName -NoNewline
-  }
+# 改仓库名之前先想清楚新地址；脚本会把旧的绝对网址全部替换掉
+node tools/set-domain.mjs https://你的用户名.github.io/你的仓库名
+
+# 然后让自检脚本确认全站地址一致、没有漏改
+node tools/check.mjs
 ```
+
+> **别用 PowerShell 的 `Get-Content` / `Set-Content` 批量替换。**
+> 在 Windows PowerShell 5.1 + 中文区域设置下，它默认按 GBK 读写文本文件，
+> 会把文件里的中文变成乱码（还会加 BOM）——这个坑在这个项目上真的踩过一次，
+> 十个文件全变乱码。`tools/set-domain.mjs` 用 Node 显式读写 UTF-8，不会有这个问题。
+> 如果你习惯用编辑器，VS Code 的「在文件中替换」也是安全的。
 
 ---
 

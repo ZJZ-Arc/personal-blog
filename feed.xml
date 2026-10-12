@@ -3,22 +3,24 @@
   RSS 2.0 订阅源。新增文章时：
   1. 在 <channel> 里更新 <lastBuildDate>
   2. 在 <channel> 顶部加一个 <item>（最新的在最上面）
-  link 必须是完整的 https 网址，且部署后把 example.com 换成你的真实域名。
+  link 必须是完整的 https 网址，而且项目站点的路径要带仓库名（这里是 /log/）。
+  改仓库名或换域名时，本文件里的地址必须和首页 canonical 保持一致，
+  否则 node tools/check.mjs 会报「站点地址不一致」。
 -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>我的博客</title>
-    <link>https://example.com/</link>
+    <link>https://zjz-arc.github.io/personal-blog/</link>
     <description>记录与折腾：编程笔记、教程和随想。</description>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 12 Oct 2026 00:00:00 +0800</lastBuildDate>
     <generator>手写的 RSS（零依赖博客）</generator>
-    <atom:link href="https://example.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://zjz-arc.github.io/personal-blog/feed.xml" rel="self" type="application/rss+xml"/>
 
     <item>
       <title>为什么我要有一个自己的博客</title>
-      <link>https://example.com/posts/hello-world.html</link>
-      <guid isPermaLink="true">https://example.com/posts/hello-world.html</guid>
+      <link>https://zjz-arc.github.io/personal-blog/posts/hello-world.html</link>
+      <guid isPermaLink="true">https://zjz-arc.github.io/personal-blog/posts/hello-world.html</guid>
       <pubDate>Mon, 12 Oct 2026 00:00:00 +0800</pubDate>
       <category>随想</category>
       <category>博客</category>
@@ -27,8 +29,8 @@
 
     <item>
       <title>这个博客是怎么搭起来的：零依赖三件套</title>
-      <link>https://example.com/posts/how-this-blog-works.html</link>
-      <guid isPermaLink="true">https://example.com/posts/how-this-blog-works.html</guid>
+      <link>https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html</link>
+      <guid isPermaLink="true">https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html</guid>
       <pubDate>Sat, 10 Oct 2026 00:00:00 +0800</pubDate>
       <category>教程</category>
       <category>前端</category>
@@ -37,8 +39,8 @@
 
     <item>
       <title>我的写作流程：Markdown 写，HTML 发</title>
-      <link>https://example.com/posts/writing-workflow.html</link>
-      <guid isPermaLink="true">https://example.com/posts/writing-workflow.html</guid>
+      <link>https://zjz-arc.github.io/personal-blog/posts/writing-workflow.html</link>
+      <guid isPermaLink="true">https://zjz-arc.github.io/personal-blog/posts/writing-workflow.html</guid>
       <pubDate>Thu, 08 Oct 2026 00:00:00 +0800</pubDate>
       <category>教程</category>
       <category>工具</category>

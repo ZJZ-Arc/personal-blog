@@ -2,36 +2,37 @@
 <!--
   给搜索引擎的页面清单。新增页面时加一个 <url>。
   lastmod 用「最后修改日期」即可，不需要精确到秒。
+  项目站点的地址要带仓库名（/log/），和首页 canonical 保持一致。
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/posts/hello-world.html</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/posts/hello-world.html</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/posts/how-this-blog-works.html</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html</loc>
     <lastmod>2026-10-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/posts/writing-workflow.html</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/posts/writing-workflow.html</loc>
     <lastmod>2026-10-08</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/tags.html</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/tags.html</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://example.com/about.html</loc>
+    <loc>https://zjz-arc.github.io/personal-blog/about.html</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.4</priority>
   </url>

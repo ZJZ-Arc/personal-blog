@@ -17,11 +17,11 @@
 
 <title>这个博客是怎么搭起来的：零依赖三件套 · 我的博客</title>
 <meta name="description" content="用纯 HTML、CSS、JavaScript 搭一个可部署到 GitHub Pages 的个人博客：目录结构、相对路径、深色模式、标签筛选和 RSS 的实现说明。">
-<link rel="canonical" href="https://example.com/posts/how-this-blog-works.html">
+<link rel="canonical" href="https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="这个博客是怎么搭起来的：零依赖三件套">
 <meta property="og:description" content="目录结构、相对路径、深色模式、标签筛选和 RSS，全部拆开讲一遍。">
-<meta property="og:url" content="https://example.com/posts/how-this-blog-works.html">
+<meta property="og:url" content="https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html">
 <meta property="article:published_time" content="2026-10-10">
 
 <link rel="alternate" type="application/rss+xml" title="我的博客 · RSS" href="../feed.xml">
@@ -80,7 +80,8 @@
 ├── templates/
 │   └── post.html       # 新文章模板（复制它来写新文章）
 ├── tools/
-│   └── new-post.mjs    # 可选：一条命令生成新文章骨架
+│   ├── new-post.mjs    # 可选：一条命令生成新文章骨架
+│   └── check.mjs       # 可选：发布前自检
 ├── assets/
 │   ├── style.css       # 所有样式，颜色都是变量
 │   └── main.js         # 主题切换 + 标签筛选
@@ -106,6 +107,12 @@
         这么写有三个好处：双击本地文件就能预览；搬到 GitHub Pages 的项目仓库（网址是
         <code>用户名.github.io/仓库名/</code>）不会 404；以后换域名也不用改任何一行代码。
       </p>
+      <blockquote>
+        但要注意区分两类地址：<strong>链接用相对路径，元信息必须写绝对网址</strong>。
+        <code>canonical</code>、<code>og:url</code>、RSS 里的 <code>&lt;link&gt;</code> 和 sitemap 都要求完整网址，
+        而项目站点的完整网址是带仓库名的——这个站就是 <code>https://zjz-arc.github.io/personal-blog/</code>。
+        最简单的做法是全局搜索替换一次，然后靠自检脚本确认没有漏改。
+      </blockquote>
 
       <h2>三、深色模式：一组变量 + 一个属性</h2>
       <p>

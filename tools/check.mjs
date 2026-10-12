@@ -126,19 +126,34 @@ for (const tag of Object.keys(overview)) {
 }
 
 /* ------------------------------------------------------------------ 4. RSS */
+// 站点根地址从首页的 canonical 推导，而不是写死 example.com。
+// 这样「项目站点」（网址是 用户名.github.io/仓库名/ 这种带子路径的）也能正确检查。
+const canonicalOfIndex = /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/.exec(indexHtml)?.[1] ?? "";
+const siteBase = (canonicalOfIndex || "https://example.com/").replace(/\/+$/, "/");
+const urlFor = (file) => (file === "index.html" ? siteBase : siteBase + file);
+
 const feedPath = join(rootDir, "feed.xml");
 if (existsSync(feedPath)) {
   const feed = read(feedPath);
+  // channel 级别的 <link> 在第一个 <item> 之前，用它当作 feed 里的基准地址
+  const feedHead = feed.split("<item>")[0];
+  const feedBase = (/<link>([^<]+)<\/link>/.exec(feedHead)?.[1] ?? siteBase).replace(/\/+$/, "/");
+
   const items = feed.match(/<item>[\s\S]*?<\/item>/g) || [];
   if (items.length === posts.length) ok();
   else fail(`feed.xml 有 ${items.length} 个 <item>，但文章有 ${posts.length} 篇`);
 
   for (const item of items) {
     const link = /<link>([^<]+)<\/link>/.exec(item)?.[1] ?? "";
-    const file = link.replace(/^https?:\/\/[^/]+\//, "");
-    const full = file === "" || file === "index.html" ? join(rootDir, "index.html") : join(rootDir, file);
+
+    if (/^https?:\/\//.test(link)) ok();
+    else fail(`feed.xml: <link> 必须是完整网址（RSS 阅读器读不了相对路径）-> "${link}"`);
+
+    // 剥掉站点基准地址（可能带 /仓库名 子路径），剩下的才是文件相对路径
+    const file = link.startsWith(feedBase) ? link.slice(feedBase.length) : link.replace(/^https?:\/\/[^/]+\//, "");
+    const full = !file || file === "index.html" ? join(rootDir, "index.html") : join(rootDir, file);
     if (existsSync(full)) ok();
-    else fail(`feed.xml: <link> 指向不存在的文件 -> ${link}`);
+    else fail(`feed.xml: <link> 指向不存在的文件 -> ${link}（是否漏改占位域名？）`);
 
     const pub = /<pubDate>([^<]+)<\/pubDate>/.exec(item)?.[1] ?? "";
     if (/^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}$/.test(pub)) ok();
@@ -152,6 +167,9 @@ if (existsSync(feedPath)) {
     .filter((d) => !Number.isNaN(d));
   if (pubDates.length && Date.parse(lastBuild) >= Math.max(...pubDates)) ok();
   else fail(`feed.xml 的 <lastBuildDate> 早于最新一篇文章的 pubDate，忘了更新？`);
+
+  if (feedBase === siteBase) ok();
+  else fail(`feed.xml 的站点地址（${feedBase}）和首页 canonical（${siteBase}）不一致，全局替换时漏改了其中一个`);
 }
 
 /* ------------------------------------------------------------------ 5. sitemap / robots */
@@ -161,9 +179,9 @@ if (existsSync(smPath)) {
   const locs = new Set([...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
   for (const page of pages) {
     const file = rel(page);
-    const want = file === "index.html" ? "https://example.com/" : `https://example.com/${file}`;
+    const want = urlFor(file);
     if (locs.has(want)) ok();
-    else fail(`sitemap.xml 缺少 ${file}`);
+    else fail(`sitemap.xml 缺少 ${file}（期望 <loc>${want}</loc>）`);
   }
   for (const loc of locs) {
     if (/^https:\/\//.test(loc)) ok();
@@ -173,8 +191,21 @@ if (existsSync(smPath)) {
 
 const robotsPath = join(rootDir, "robots.txt");
 if (existsSync(robotsPath)) {
-  if (/^Sitemap:/m.test(read(robotsPath))) ok();
+  const robots = read(robotsPath);
+  if (/^Sitemap:/m.test(robots)) ok();
   else fail("robots.txt 缺少 Sitemap: 声明");
+  const smLoc = /^Sitemap:\s*(\S+)/m.exec(robots)?.[1] ?? "";
+  if (smLoc === siteBase + "sitemap.xml") ok();
+  else fail(`robots.txt 的 Sitemap 地址（${smLoc}）和站点地址（${siteBase}sitemap.xml）不一致`);
+}
+
+/* ------------------------------------------------------------------ 5b. 全站域名是否统一 */
+// 全局替换最容易犯的错：改了一半，或者给项目站点漏了 /仓库名 子路径
+for (const page of pages) {
+  const file = rel(page);
+  const href = /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/.exec(read(page))?.[1] ?? "";
+  if (href === urlFor(file)) ok();
+  else fail(`${file} 的 canonical 是 "${href}"，按首页推导应为 "${urlFor(file)}"（全局替换漏改？）`);
 }
 
 /* ------------------------------------------------------------------ 6. 提醒（不算错误） */
