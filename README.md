@@ -30,7 +30,7 @@ personal-blog/
 
 ---
 
-## 二、发文章
+## 二、发文章（AI生成）
 
 ### 第 1 步：生成页面
 
@@ -108,40 +108,7 @@ git push
 
 ---
 
-## 四、部署到 GitHub Pages
 
-### 4.1 选择仓库类型
-
-| 类型 | 仓库名 | 最终网址 |
-| --- | --- | --- |
-| 用户主页 | `你的用户名.github.io` | `https://你的用户名.github.io/` |
-| 项目站点 | 任意，例如 `blog` | `https://你的用户名.github.io/blog/` |
-
-因为全站用的是相对路径，**两种都可以直接用，不需要改任何链接**。
-
-### 4.2 推送代码
-
-先在 GitHub 网页上新建一个空仓库（**不要**勾选自动生成 README），然后在项目目录里：
-
-```powershell
-cd personal-blog
-
-git init
-git add .
-git commit -m "initial commit"
-git branch -M main
-
-# 把 URL 换成你自己的仓库地址
-git remote add origin https://github.com/你的用户名/你的仓库名.git
-git push -u origin main
-```
-
-如果 `git commit` 提示要先设置身份：
-
-```powershell
-git config --global user.name "你的名字"
-git config --global user.email "你的邮箱"
-```
 
 ### 4.3 开启 Pages
 
