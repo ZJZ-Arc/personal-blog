@@ -9,7 +9,7 @@
 -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>我的博客</title>
+    <title>Arc.desktop的小窝</title>
     <link>https://zjz-arc.github.io/personal-blog/</link>
     <description>记录与折腾：编程笔记、教程和随想。</description>
     <language>zh-CN</language>

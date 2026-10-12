@@ -1,4 +1,4 @@
-# 我的博客 —— 纯 HTML / CSS / JavaScript
+# Arc.desktop的小窝 —— 纯 HTML / CSS / JavaScript
 
 **线上地址：** https://zjz-arc.github.io/personal-blog/
 （仓库 `ZJZ-Arc/personal-blog`，GitHub Pages 从 `main` 分支根目录发布。
@@ -177,7 +177,7 @@ node tools/check.mjs
 
 | 想改什么 | 改哪里 |
 | --- | --- |
-| 站名 | 每个页面里的 `<span class="brand">我的博客</span>`、`<title>`、`og:site_name` |
+| 站名 | 每个页面里的 `<span class="brand">Arc.desktop的小窝</span>`、`<title>`、`og:site_name` |
 | 首页自我介绍 | `index.html` 的 `<section class="hero">` |
 | 关于页 | `about.html` |
 | 主色、圆角、宽度 | `assets/style.css` 顶部的 CSS 变量（`--accent`、`--radius`、`--maxw`） |
