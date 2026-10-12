@@ -24,7 +24,7 @@ personal-blog/
 ├── assets/
 │   ├── style.css       # 所有样式；颜色是 CSS 变量，深色模式只是换一组变量
 │   ├── main.js         # 主题切换 + 标签筛选 + 自动目录 + 阅读时长
-│   └── avatar.svg      # 左侧栏头像（换成自己的照片即可，方形图效果最好）
+│   └── avatar.jpg      # 左侧栏头像（320×320 方形；换头像直接替换这个文件）
 ├── drafts/             # 你的草稿（已在 .gitignore 里，不会被发布）
 ├── feed.xml            # RSS 订阅源
 ├── sitemap.xml         # 页面清单，给搜索引擎
@@ -183,7 +183,7 @@ node tools/check.mjs
 | --- | --- |
 | 站名 | 每个页面左侧栏的 `<div class="site-name">…</div>`、`<title>`、`og:site_name` |
 | 站点副标题 | 每个页面左侧栏的 `<div class="site-description">记录与折腾</div>` |
-| 头像 | 换掉 `assets/avatar.svg`（方形图效果最好，CSS 会自动裁成圆形） |
+| 头像 | 替换 `assets/avatar.jpg`（方形图最好，CSS 会自动裁成圆形；建议 ≥320×320） |
 | 头像右下角的小表情 | 每个页面里的 `<span class="emoji">💻</span>`，不想要就整行删掉 |
 | 首页自我介绍 | `index.html` 里第一张卡片（`<h1 class="article-title">` 和它的 `article-subtitle`） |
 | 关于页 | `about.html` 的 `.article-content` 一段 |
