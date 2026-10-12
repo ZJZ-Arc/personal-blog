@@ -8,7 +8,7 @@
 
 ```
 personal-blog/
-├── index.html          # 首页：自我介绍 + 标签栏 + 文章列表
+├── index.html          # 首页：自我介绍 + 标签筛选 + 文章列表
 ├── tags.html           # 所有标签的总览页
 ├── about.html          # 关于我
 ├── posts/              # 每篇文章一个 HTML 文件
@@ -23,7 +23,8 @@ personal-blog/
 │   └── set-domain.mjs  # 换站点地址时一次性改完全部绝对网址（可选）
 ├── assets/
 │   ├── style.css       # 所有样式；颜色是 CSS 变量，深色模式只是换一组变量
-│   └── main.js         # 主题切换 + 标签筛选
+│   ├── main.js         # 主题切换 + 标签筛选 + 自动目录 + 阅读时长
+│   └── avatar.svg      # 左侧栏头像（换成自己的照片即可，方形图效果最好）
 ├── drafts/             # 你的草稿（已在 .gitignore 里，不会被发布）
 ├── feed.xml            # RSS 订阅源
 ├── sitemap.xml         # 页面清单，给搜索引擎
@@ -175,16 +176,32 @@ node tools/check.mjs
 
 ## 五、改成你自己的样子
 
+页面版式是「左侧导航 + 中间卡片 + 右侧目录」三栏（样式参照 Hugo 的 Stack 主题）。
+下面是最常改的几处：
+
 | 想改什么 | 改哪里 |
 | --- | --- |
-| 站名 | 每个页面里的 `<span class="brand">Arc.desktop的小窝</span>`、`<title>`、`og:site_name` |
-| 首页自我介绍 | `index.html` 的 `<section class="hero">` |
-| 关于页 | `about.html` |
-| 主色、圆角、宽度 | `assets/style.css` 顶部的 CSS 变量（`--accent`、`--radius`、`--maxw`） |
-| 深色配色 | `assets/style.css` 的 `:root[data-theme="dark"]` |
-| 页脚版权 | 各页面的 `<footer class="site-footer">` |
+| 站名 | 每个页面左侧栏的 `<div class="site-name">…</div>`、`<title>`、`og:site_name` |
+| 站点副标题 | 每个页面左侧栏的 `<div class="site-description">记录与折腾</div>` |
+| 头像 | 换掉 `assets/avatar.svg`（方形图效果最好，CSS 会自动裁成圆形） |
+| 头像右下角的小表情 | 每个页面里的 `<span class="emoji">💻</span>`，不想要就整行删掉 |
+| 首页自我介绍 | `index.html` 里第一张卡片（`<h1 class="article-title">` 和它的 `article-subtitle`） |
+| 关于页 | `about.html` 的 `.article-content` 一段 |
+| 社交图标 | 左侧栏的 `<ol class="menu-social">` |
+| 导航菜单 | 每个页面的 `<nav id="main-menu">`（图标是内联 SVG，文字在 `<span>` 里） |
+| 主色 / 卡片圆角 / 卡片内边距 | `assets/style.css` 的 `--accent-color`、`--card-border-radius`、`--card-padding` |
+| 正文宽度 | `assets/style.css` 的 `--right-sidebar-max-width`（右栏占比，正文随剩余宽度伸缩） |
+| 深色配色 | `assets/style.css` 的 `:root[data-theme="dark"]` 一段 |
+| 标签颜色 | 各页面里 chip 的内联 `style="background-color:#…"`（另见 `tools/new-post.mjs` 里的 `TAG_COLORS`） |
+| 页脚版权 | 各页面里的 `<footer class="site-footer">` |
 
-改主色只需要动一行：`--accent: #2563eb;` 换成你喜欢的颜色即可，深浅色会自动对应。
+改主色只需要动一行：`--accent-color: #34495e;` 换成你喜欢的颜色即可，深浅色会自动对应。
+
+三样东西是**自动**的，不用手写：
+
+- **右侧目录**：`assets/main.js` 扫描正文的 `h2` / `h3` 生成，编号（1. / 1.1 …）由 CSS 计数器完成；文章没有小标题时目录会自己隐藏。
+- **阅读时长**：按中文 400 字/分钟、英文 200 词/分钟估算，填进 `[data-reading-time]`。
+- **深色模式**：跟随系统，手动切过就记住选择（存在 `localStorage` 的 `blog-theme`）。
 
 ---
 

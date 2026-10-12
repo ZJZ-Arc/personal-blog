@@ -126,15 +126,26 @@ const finalSlug = outFile.slice(outDir.length + 1).replace(/\.html$/, "");
 const templatePath = join(rootDir, "templates", "post.html");
 if (!existsSync(templatePath)) die(`找不到模板文件：${templatePath}`);
 
-// 标签链接：href 里的中文要转义成 %E6%95%99%E7%A8%8B 这种形式才安全
-const tagLinks = tags.length
-  ? tags
-      .map(
-        (t) =>
-          `<a class="tag" href="../index.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`
-      )
-      .join("\n          ")
-  : `<a class="tag" href="../index.html">未分类</a>`;
+// 标签 chip：每个标签一个固定颜色（和首页卡片、tagCloud 保持一致）。
+// href 里的中文要转义成 %E6%95%99%E7%A8%8B 这种形式才安全。
+const TAG_COLORS = {
+  教程: "#0177b8",
+  前端: "#8ea885",
+  工具: "#b8860b",
+  随想: "#df7988",
+  博客: "#2a9d8f",
+};
+const TAG_COLOR_FALLBACK = "#5b6b7c";
+
+const chips = tags.map(
+  (t) =>
+    `<a class="chip" href="../index.html?tag=${encodeURIComponent(t)}" style="background-color:${
+      TAG_COLORS[t] || TAG_COLOR_FALLBACK
+    };color:#fff">${escapeHtml(t)}</a>`
+);
+const tagLinks = chips.length
+  ? chips.join("\n            ")
+  : `<a class="chip" href="../index.html" style="background-color:${TAG_COLOR_FALLBACK};color:#fff">未分类</a>`;
 
 let html = readFileSync(templatePath, "utf8")
   .replaceAll("{{TITLE}}", escapeHtml(title))
@@ -180,15 +191,18 @@ if (outDir === join(rootDir, "drafts")) {
 
 console.log(`接下来还要手动做这几件事（零依赖方案的代价，约两分钟）：
 
-  1. 在 index.html 的文章列表顶部加一个 <li>：
+  1. 在 index.html 的文章列表顶部加一个卡片（放在 <ul class="article-list" data-post-list> 里）：
      <li class="post-item" data-tags="${tags.join(" ")}">
        <a class="post-card" href="posts/${finalSlug}.html">
-         <h3>${title}</h3>
-         <p class="summary">${summary}</p>
-         <div class="post-meta">
-           <time datetime="${isoDate}">${toDisplayDate(isoDate)}</time>
-           <span class="dot">·</span>
-           <span class="tags">${tags.map((t) => `<span class="tag">${t}</span>`).join("")}</span>
+         <div class="article-details">
+           <header class="article-category">
+             ${tags.map((t) => `<span class="chip" style="background-color:${TAG_COLORS[t] || TAG_COLOR_FALLBACK};color:#fff">${t}</span>`).join("\n              ") || '<span class="chip" style="background-color:#5b6b7c;color:#fff">未分类</span>'}
+           </header>
+           <h2 class="article-title">${title}</h2>
+           <p class="article-summary">${summary}</p>
+           <footer class="article-time">
+             <div><time datetime="${isoDate}">${toDisplayDate(isoDate)}</time></div>
+           </footer>
          </div>
        </a>
      </li>
@@ -196,7 +210,7 @@ console.log(`接下来还要手动做这几件事（零依赖方案的代价，�
   2. 如果有新标签，在 index.html 的标签栏和 tags.html 里各加一条，并更新计数
   3. 在 feed.xml 里加一个 <item>，并更新 <lastBuildDate>
   4. 在 sitemap.xml 里加一个 <url>
-  5. 双击 index.html 自测：深色/浅色、标签筛选、文章页返回
+  5. 双击 index.html 自测：深色/浅色、标签筛选、文章页目录与返回
   6. git add . && git commit -m "post: ${title}" && git push
 
-提示：正文在 ${rel} 里，搜索 "在这里写第一段" 就能找到位置。`);
+提示：正文在 ${rel} 里，搜索 "在这里写第一段" 就能找到位置；右侧目录会从正文的 h2/h3 自动生成。`);
