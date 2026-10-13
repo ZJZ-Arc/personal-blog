@@ -16,18 +16,18 @@
 </script>
 
 <title>这个博客是怎么搭起来的：零依赖三件套 · Arc.desktop的小窝</title>
-<meta name="description" content="用纯 HTML、CSS、JavaScript 搭一个可部署到 GitHub Pages 的个人博客：目录结构、相对路径、深色模式、标签筛选、目录和 RSS 的实现说明。">
+<meta name="description" content="介绍这个博客的目录结构、相对路径、深色模式、标签筛选、目录和 RSS。">
 <link rel="canonical" href="https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="这个博客是怎么搭起来的：零依赖三件套">
-<meta property="og:description" content="目录结构、相对路径、深色模式、标签筛选和 RSS，全部拆开讲一遍。">
+<meta property="og:description" content="这个博客的目录结构和几处交互实现。">
 <meta property="og:url" content="https://zjz-arc.github.io/personal-blog/posts/how-this-blog-works.html">
 <meta property="article:published_time" content="2026-10-10">
 <meta name="theme-color" content="#d8e9fb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#24405e" media="(prefers-color-scheme: dark)">
 
 <link rel="alternate" type="application/rss+xml" title="Arc.desktop的小窝 · RSS" href="../feed.xml">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
+<link rel="icon" type="image/jpeg" href="../assets/avatar.jpg">
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body class="article-page">
@@ -79,7 +79,7 @@
             <a class="chip" href="../index.html?tag=前端" style="background-color:#8ea885;color:#fff">前端</a>
           </header>
           <h1 class="article-title">这个博客是怎么搭起来的：零依赖三件套</h1>
-          <p class="article-subtitle">目录结构、相对路径、深色模式、标签筛选和目录，全部拆开讲一遍。</p>
+          <p class="article-subtitle">介绍这个站的目录结构、样式和几处交互。</p>
           <footer class="article-time">
             <div><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16"/></svg><time datetime="2026-10-10">2026年10月10日</time></div>
             <div><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>阅读时长: <span data-reading-time>—</span> 分钟</span></div>
@@ -89,8 +89,8 @@
 
       <div class="article-content">
         <p>
-          这个站没有框架、没有 npm 依赖、没有构建步骤。整个「技术方案」就是浏览器原本就会的三样东西：
-          HTML 负责内容，CSS 负责样子，JavaScript 负责那点交互。看懂这一篇，你就看懂了这个站的全部。
+          这个站目前没有框架、npm 依赖或构建步骤。页面由 HTML、CSS 和少量 JavaScript 组成，
+          文件改完就能在浏览器里打开。下面按目录、样式和交互分别说说。
         </p>
 
         <h2>一、目录结构</h2>
@@ -117,7 +117,7 @@
 ├── .nojekyll           # 告诉 GitHub Pages：别用 Jekyll 处理我的文件
 └── README.md</code></pre>
         <p>
-          注意文章全部放在 <code>posts/</code> 子目录里。这不是强迫症，而是为了「相对路径」能算得清楚。
+          文章放在 <code>posts/</code> 子目录，页面里的资源链接因此要比首页多退一层目录。
         </p>
 
         <h2>二、相对路径：让同一份代码在本地和线上都能跑</h2>
@@ -130,8 +130,8 @@
 &lt;!-- 文章在 posts/ 里，要往上退一层 --&gt;
 &lt;link rel="stylesheet" href="../assets/style.css"&gt;</code></pre>
         <p>
-          这么写有三个好处：双击本地文件就能预览；搬到 GitHub Pages 的项目仓库（网址是
-          <code>用户名.github.io/仓库名/</code>）不会 404；以后换域名也不用改任何一行代码。
+          相对路径让页面可以从本地直接预览，也能放进 GitHub Pages 的项目仓库里。换域名时，
+          页面内部的资源链接通常不用动；不过下面提到的 canonical 和 RSS 地址仍要更新。
         </p>
         <blockquote>
           但要注意区分两类地址：<strong>链接用相对路径，元信息必须写绝对网址</strong>。
@@ -159,7 +159,7 @@
   --card-text-color-main: rgba(255, 255, 255, 0.9);
   --sidebar-menu-color: #ff9ecb;
 }</code></pre>
-        <p>两个容易踩的坑我提前处理了：</p>
+        <p>这里有两处需要留意：</p>
         <ul>
           <li>
             <strong>闪白屏。</strong>如果在 body 末尾才读 localStorage，页面会先用浅色画一遍再变深色。
@@ -223,7 +223,7 @@ headings.forEach(function (h) {
         </p>
 
         <h2>七、发布到 GitHub Pages</h2>
-        <p>思路只有四步，详细命令写在项目的 README 里：</p>
+        <p>发布步骤和命令也写在项目的 README 里，大致是：</p>
         <ol>
           <li>在 GitHub 建一个仓库（想要 <code>用户名.github.io</code> 这样的网址，仓库名就得这么取）；</li>
           <li>把本地文件 <code>git push</code> 上去；</li>
@@ -237,15 +237,14 @@ headings.forEach(function (h) {
 
         <h2>八、什么时候该换方案</h2>
         <p>
-          我把话说在前面：这套方案不是万能的。出现下面任一情况，就说明你该迁移了——
-          这正是「知道原理」比「会用某个工具」值钱的地方，迁移时你清楚每一部分对应什么。
+          手动维护文件的工作量会随着功能增加。下面这些需求出现时，可以考虑换成 Astro 一类的静态站点工具：
         </p>
         <ul>
           <li>每次发文章要手动改四个以上文件，而且你开始因此拖延写作；</li>
           <li>需要在文章里用复用组件、图片自动压缩、代码高亮；</li>
           <li>想要草稿、定时发布、多语言这些功能。</li>
         </ul>
-        <p>那时候就直接换 <a class="link" href="https://astro.build/" target="_blank" rel="noopener">Astro</a>——你现在写的内容一个字都不会浪费，它们本来就是 HTML。</p>
+        <p>例如 <a class="link" href="https://astro.build/" target="_blank" rel="noopener">Astro</a>。迁移前需要按新工具的格式整理页面，但文章内容仍然可以沿用。</p>
       </div>
 
       <footer class="article-footer">

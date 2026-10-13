@@ -16,18 +16,18 @@
 </script>
 
 <title>为什么我要有一个自己的博客 · Arc.desktop的小窝</title>
-<meta name="description" content="平台会关停，算法会改，只有自己域名下的文字真正属于自己。这是本站的第一篇文章。">
+<meta name="description" content="聊聊为什么想把文章放在自己维护的网站上，以及这个博客的技术选择。">
 <link rel="canonical" href="https://zjz-arc.github.io/personal-blog/posts/hello-world.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为什么我要有一个自己的博客">
-<meta property="og:description" content="平台会关停，算法会改，只有自己域名下的文字真正属于自己。">
+<meta property="og:description" content="聊聊为什么想把文章放在自己维护的网站上。">
 <meta property="og:url" content="https://zjz-arc.github.io/personal-blog/posts/hello-world.html">
 <meta property="article:published_time" content="2026-10-12">
 <meta name="theme-color" content="#d8e9fb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#24405e" media="(prefers-color-scheme: dark)">
 
 <link rel="alternate" type="application/rss+xml" title="Arc.desktop的小窝 · RSS" href="../feed.xml">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>">
+<link rel="icon" type="image/jpeg" href="../assets/avatar.jpg">
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body class="article-page">
@@ -79,7 +79,7 @@
             <a class="chip" href="../index.html?tag=博客" style="background-color:#2a9d8f;color:#fff">博客</a>
           </header>
           <h1 class="article-title">为什么我要有一个自己的博客</h1>
-          <p class="article-subtitle">平台会关停，算法会改，只有自己域名下的文字是真正属于自己的。</p>
+          <p class="article-subtitle">我想把写过的东西放在一个自己能长期维护的地方。</p>
           <footer class="article-time">
             <div><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16"/></svg><time datetime="2026-10-12">2026年10月12日</time></div>
             <div><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>阅读时长: <span data-reading-time>—</span> 分钟</span></div>
@@ -93,37 +93,34 @@
           有的平台关了，有的账号找不回来了，有的内容还在但埋在了别人的信息流深处。
         </p>
 
-        <h2>三个理由</h2>
+        <h2>为什么自己搭一个</h2>
         <ol>
-          <li><strong>所有权。</strong>域名是我的，文件在我硬盘上，托管随时可以搬。哪怕明天某个服务倒闭，我把文件夹压个压缩包就能带走。</li>
-          <li><strong>写作质量。</strong>没有点赞数、没有推荐算法，写的时候只面对一件事：这段话三个月后我自己还看得懂吗？</li>
-          <li><strong>长期复利。</strong>零散笔记放久了会变成素材库。半年后写同一主题时，我是在改旧文章，而不是从零开始。</li>
+          <li><strong>内容好搬。</strong>文章就是本地的 HTML 文件，托管换了也能把文件带走。</li>
+          <li><strong>页面由我决定。</strong>没有点赞数和推荐流，页面怎么排、文章怎么找，都可以自己改。</li>
+          <li><strong>旧笔记还能接着用。</strong>以后再写到相同主题，可以回来补充或修正之前的内容。</li>
         </ol>
 
         <h2>我给自己定的三条规矩</h2>
         <blockquote>
-          写完整的想法，不写碎片；写自己验证过的东西；写完就发，不等它变完美。
+          尽量把一件事说完整；不确定的地方标出来；写完先发，之后发现问题再改。
         </blockquote>
         <p>
-          这三条都是用来对抗同一个毛病的：我以前总想把文章攒到「足够好」再发，结果草稿箱越堆越多，
-          最后一篇都没发出去。发布本身就是一种编辑——写出来才会有人（哪怕只有未来的自己）指出问题。
+          这几条主要是提醒自己别把文章一直留在草稿里。发出来以后还有机会修改，也能看出哪些地方没讲清楚。
         </p>
 
         <h2>关于这个站的技术选择</h2>
         <p>
-          第一版我选择了最笨也最耐用的方案：纯 HTML、CSS 和一点点 JavaScript，
-          没有框架、没有构建步骤。原因很实在——我上一个博客就是死在「升级依赖」上的，
-          某天想改个字，结果要先修好半个工具链，兴趣当场耗尽。
+          第一版用了 HTML、CSS 和少量 JavaScript，没有框架和构建步骤。这样改文章只要编辑文件，
+          不用先处理依赖或构建工具。具体的目录和页面实现，我放在
+          <a class="link" href="how-this-blog-works.html">《这个博客是怎么搭起来的》</a>里。
         </p>
         <p>
-          现在的流程是：写好一段 HTML，存文件，推到 GitHub，完事。具体怎么做的，
-          下一篇<a class="link" href="how-this-blog-works.html">《这个博客是怎么搭起来的》</a>里详细说。
+          现在的流程很简单：改好文件，提交到 GitHub，等 Pages 更新。
         </p>
 
         <hr>
         <p>
-          如果你也在犹豫要不要有自己的站点：不用等想清楚定位，先写一篇「为什么我要开始写」，
-          那就是你的第一篇文章。
+          如果你也想做个站，可以先放一篇自己想留住的文字上去。主题和样式以后都能慢慢调整。
         </p>
       </div>
 

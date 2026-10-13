@@ -472,6 +472,8 @@ svg.icon {
   color: var(--card-text-color-secondary);
 }
 
+.home-intro-subtitle { text-align: right; }
+
 .article-time {
   display: flex;
   align-items: center;
