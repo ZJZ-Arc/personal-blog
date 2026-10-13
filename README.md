@@ -73,29 +73,25 @@ node tools/new-post.mjs --title "文章标题" --tags "教程 工具" --summary 
 
 ### 第 3 步：更新这四个文件
 
-零依赖方案的代价就是这一步，熟练后两分钟搞定：
-
 - [ ] `index.html` —— 在文章列表**最上面**加一个 `<li class="post-item" data-tags="教程 工具">`
-      （`data-tags` 决定标签筛选能不能筛到它）
 - [ ] `index.html` 的标签栏 + `tags.html` —— 出现新标签时各加一条，并更新计数
 - [ ] `feed.xml` —— 加一个 `<item>`，更新 `<lastBuildDate>`
 - [ ] `sitemap.xml` —— 加一个 `<url>`
-- [ ] 跑一遍 `node tools/check.mjs`，让机器替你确认上面四条都没漏（下面第 4 步详述）
+- [ ] 跑一遍 `node tools/check.mjs`，二次确认上面四条都没漏
 
-> 运行 `new-post.mjs` 时，终端会直接打印好第 1 项要粘贴的 `<li>` 代码，复制即可。
+> 运行 `new-post.mjs` 时，终端会直接打印好第 1 项要粘贴的 `<li>` 代码。
 
 ### 第 4 步：本地自测
 
-先让机器查一遍
+先检查
 
 ```powershell
 node tools/check.mjs
 ```
 
-它会检查断链、首页与 tags.html 的标签计数是否和真实文章数一致、feed.xml 与 sitemap.xml 是否漏了文章、
-每个页面的 canonical / og / 主题脚本顺序是否齐全。全通过时退出码为 0，有问题时逐条列出并返回 1。
-
-然后再用眼睛确认一遍：双击 `index.html`，依次看深色/浅色切换、标签筛选、点进文章、返回首页、导航高亮。
+用以检查断链、首页与 tags.html 的标签计数是否和真实文章数一致、feed.xml 与 sitemap.xml 是否漏了文章、
+每个页面的 canonical / og / 主题脚本顺序是否齐全。全通过时退出码为 0，有问题返回1
+双击 `index.html`，依次看深色/浅色切换、标签筛选、点进文章、返回首页、导航高亮。
 
 ### 第 5 步：发布
 
@@ -103,9 +99,7 @@ node tools/check.mjs
 git add .
 git commit -m "post: 文章标题"
 git push
-```
 
-推上去后 GitHub Pages 会自动重新构建，通常 1 分钟内生效。
 
 ---
 
